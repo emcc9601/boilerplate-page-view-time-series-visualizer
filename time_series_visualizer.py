@@ -1,15 +1,27 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 import seaborn as sns
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 
 # Import data (Make sure to parse dates. Consider setting index column to 'date'.)
-df = pd.read_csv("fcc-forum-pageviews.csv", index_col="date")
+# Ethan's note: Did not change index column as it caused the data cleaning to break when using df.drop()
+df = pd.read_csv("fcc-forum-pageviews.csv")
 
 # Clean data
-df = None
+removeIndexes = []
+lowerQuantile = np.quantile(df["value"], 0.025)
+upperQuantile = np.quantile(df["value"], 0.975)
 
+for i in range(len(df["value"])):
+    if (lowerQuantile >= df["value"][i]) or (upperQuantile <= df["value"][i]):
+        removeIndexes.append(i)
+
+df = df.drop(removeIndexes, axis=0)
+
+# For testing purposes, uncomment this and run "python3 time_series_visualizer.py"
+# print(df)
 
 def draw_line_plot():
     # Draw line plot

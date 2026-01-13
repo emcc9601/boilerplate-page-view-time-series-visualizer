@@ -6,3 +6,9 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
 RUN apt update
 RUN apt install python3 -y
+RUN apt install pip -y
+
+RUN pip install matplotlib --break-system-packages
+RUN pip install pandas --break-system-packages
+RUN pip install numpy --break-system-packages
+RUN pip install seaborn --break-system-packages
