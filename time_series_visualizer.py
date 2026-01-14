@@ -25,10 +25,10 @@ df = df.drop(removeIndexes, axis=0)
 
 def draw_line_plot():
     # Draw line plot
-
-
-
-
+    fig, ax = plt.subplots(figsize=(15, 6))
+    ax = sns.lineplot(data=df, x="date", y="value")
+    ax.set(xlabel="Date", ylabel="Page Views", title="Daily freeCodeCamp Forum Page Views 5/2016-12/2019")
+    fig = ax.figure
 
     # Save image and return fig (don't change this part)
     fig.savefig('line_plot.png')
