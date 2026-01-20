@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import seaborn as sns
+from matplotlib import ticker
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 
@@ -24,10 +25,16 @@ df = df.drop(removeIndexes, axis=0)
 # print(df)
 
 def draw_line_plot():
+    # Tweak date data
+    df_line = df
+    df_line["date"] = pd.to_datetime(df_line["date"])
+    df_line["date"] = df_line["date"].dt.strftime("%Y-%m")
+
     # Draw line plot
     fig, ax = plt.subplots(figsize=(15, 6))
-    ax = sns.lineplot(data=df, x="date", y="value")
+    ax = sns.lineplot(data=df_line, x="date", y="value", errorbar=None)
     ax.set(xlabel="Date", ylabel="Page Views", title="Daily freeCodeCamp Forum Page Views 5/2016-12/2019")
+    ax.xaxis.set_major_locator(ticker.LinearLocator(numticks=8))
     fig = ax.figure
 
     # Save image and return fig (don't change this part)
